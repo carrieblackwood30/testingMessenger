@@ -51,19 +51,20 @@ let newMessage = reactive([])
 function sendMessage(event) {
     event.stopPropagation()
 
-    if(sendMessage.value != ''){
         newMessage.push({
-            name: `${currentUser}`,
-            message: `${sendingMessage.value}`
+          name: `${currentUser}`,
+          message: `${sendingMessage.value}`  
         })
-    }
 
     localStorage.setItem("newChat", JSON.stringify(newMessage))
     
+    console.log(newMessage.value)
 }
 
-    newMessage = JSON.parse(localStorage.getItem("newChat"))
+// newMessage = ref(JSON.parse(localStorage.getItem("newChat")))
 
+// newMessage.push(4)
+// console.log(newMessage)
 
 </script>
 
