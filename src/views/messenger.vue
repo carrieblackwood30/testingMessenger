@@ -12,7 +12,7 @@
             </div>
 
             <div class="chat">
-                <div class="messageContainer" v-for="chats in joshChat">
+                <div class="messageContainer" v-for="chats in newMessage" :key="chats">
                     <h4>{{ chats.name }}</h4>
                     <p>{{ chats.message }}</p>
                 </div>
@@ -21,7 +21,9 @@
                         @input="sendingMessage = $event.target.value">
                     <button class="sendMessageBtn" @click="sendMessage">></button>
                 </div>
+
             </div>
+            
         </div>
     </body>
 
@@ -37,9 +39,6 @@ import { userArr } from "../components/users.vue"
 
 const sendingMessage = ref('')
 
-import { joshChat } from "../components/joshChat.vue"
-
-
 console.log(currentUser)
 
 function chosenChat(event) {
@@ -47,22 +46,24 @@ function chosenChat(event) {
     console.log(event.target.getAttribute("data-chosen"))
 }
 
+let newMessage = reactive([])
+
 function sendMessage(event) {
     event.stopPropagation()
-    joshChat.push({
-        name: `${currentUser}`,
-        message: `${sendingMessage.value}`
-    })
 
-    localStorage.setItem(
-        "messages",
-        joshChat.push({
+    if(sendMessage.value != ''){
+        newMessage.push({
             name: `${currentUser}`,
             message: `${sendingMessage.value}`
-        }))
+        })
+    }
+
+    localStorage.setItem("newChat", JSON.stringify(newMessage))
+    
 }
 
-console.log(joshChat)
+    newMessage = JSON.parse(localStorage.getItem("newChat"))
+
 
 </script>
 
@@ -81,19 +82,7 @@ console.log(joshChat)
 
 body {
     background-color: #212121;
-}
-
-.userPick h1 {
-    border: 1px solid black;
-    margin: 1rem;
-    padding: 1rem;
-    background: var(--text-color);
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.userPick h1:hover {
-    background-color: darkcyan;
+    overflow: hidden;
 }
 
 .chatContainer {
@@ -128,13 +117,14 @@ body {
     background-position: center;
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
     position: relative;
 }
 
 .chatInput {
-    position: absolute;
-    left: 0;
-    bottom: 1%;
+    position: fixed;
+    left: 30%;
+    bottom: 10%;
     right: 0;
     text-align: center;
 }

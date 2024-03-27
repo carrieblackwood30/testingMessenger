@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import HomeView from './views/HomeView.vue'
 import messenger from "./views/messenger.vue"
+
 const router = createRouter({
   routes: [{
     path: '/',
