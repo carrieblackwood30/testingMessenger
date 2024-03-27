@@ -23,7 +23,7 @@
                 </div>
 
             </div>
-            
+
         </div>
     </body>
 
@@ -43,28 +43,40 @@ console.log(currentUser)
 
 function chosenChat(event) {
     event.stopPropagation()
-    console.log(event.target.getAttribute("data-chosen"))
+
+    const chosenUser = event.target.getAttribute("data-chosen")
+    console.log(chosenUser)
+
+    return chosenUser
 }
 
-let newMessage = reactive([])
+function delMyself() {
+    console.log(currentUser)
+}
+
+let newMessage = reactive(JSON.parse(localStorage.getItem("newChat")))
+
+const greeting = reactive([{
+    message: "conversation is starting"
+}])
+
+newMessage === null ? localStorage.setItem("newChat", JSON.stringify(greeting)) : reactive(JSON.parse(localStorage.getItem("newChat")))
 
 function sendMessage(event) {
     event.stopPropagation()
 
-        newMessage.push({
-          name: `${currentUser}`,
-          message: `${sendingMessage.value}`  
-        })
+    newMessage.push({
+        name: `${currentUser}`,
+        message: `${sendingMessage.value}`
+    })
 
     localStorage.setItem("newChat", JSON.stringify(newMessage))
-    
-    console.log(newMessage.value)
+
+    sendingMessage.value = ''
+
+    console.log(newMessage)
 }
 
-// newMessage = ref(JSON.parse(localStorage.getItem("newChat")))
-
-// newMessage.push(4)
-// console.log(newMessage)
 
 </script>
 
